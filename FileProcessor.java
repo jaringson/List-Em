@@ -1,6 +1,10 @@
 package listem;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.regex.*;
 
 public abstract class FileProcessor {
@@ -9,11 +13,11 @@ public abstract class FileProcessor {
 		// TODO Auto-generated method stub
 
 	}
-	private String dirName;
-	private String filePattern;
-	private Boolean recursion;
-	private Pattern pattern;
-	private Matcher matcher;
+	protected String dirName;
+	protected String filePattern;
+	protected Boolean recursion;
+	protected Pattern pattern;
+	protected Matcher matcher;
 	
 	void processDir(File dir){
 		if(!dir.isDirectory()){
@@ -25,17 +29,39 @@ public abstract class FileProcessor {
 			return;
 		}
 		for(File file: dir.listFiles()){
-			if(file.isFile()){
-				if(file.canRead()){
-					processFile(file);
+			pattern = Pattern.compile(filePattern);
+			matcher = pattern.matcher(file.getName());
+			if(matcher.matches()){
+				System.out.println("here1");
+				if(file.isFile()){
+					if(file.canRead()){
+						processFile(file);
+					}
+				}
+				else if(recursion == true && file.isDirectory()){
+					processDir(file);
 				}
 			}
 		}
 	}
 	public abstract void unreadableDir(File dir);
-	private void processFile(File file) {
-		
-	}
 	public abstract void nondir(File dir);
+	public abstract void processline(String line);
+	public abstract void endfile(File file);
+	
+	private void processFile(File file) {
+		try {
+			Scanner reader = new Scanner (new BufferedInputStream(new FileInputStream(file)));
+			while(reader.hasNext()){
+				String line = reader.nextLine();
+				processline(line);
+			}
+			endfile(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 
 }

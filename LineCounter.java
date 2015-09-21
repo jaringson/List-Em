@@ -17,13 +17,11 @@ public class LineCounter extends FileProcessor implements ILineCounter  {
 
 	@Override
 	public void unreadableDir(File dir) {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Can't Read the Directory or File");
 	}
 	@Override
 	public void nondir(File dir) {
-		
-		
+		System.out.println("This is not a Directory");
 	}
 	
 	
@@ -37,6 +35,18 @@ public class LineCounter extends FileProcessor implements ILineCounter  {
 	public void line(){
 		curLineCount++;
 		totLineCount++;
+	}
+
+	@Override
+	public void processline(String line) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endfile(File file) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 
