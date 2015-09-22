@@ -25,7 +25,7 @@ public abstract class FileProcessor {
 			unreadableDir(dir);
 			return;
 		}
-		filePattern = filePattern.substring(1,filePattern.length()-1);
+		//filePattern = filePattern.substring(1,filePattern.length()-1);
 		for(File file: dir.listFiles()){
 			pattern = Pattern.compile(filePattern);
 			matcher = pattern.matcher(file.getName());
@@ -37,9 +37,10 @@ public abstract class FileProcessor {
 						processFile(file);
 					}
 				}
-				else if(recursion == true && file.isDirectory()){
-					processDir(file);
-				}
+			}
+			if(recursion == true && file.isDirectory()){
+				//System.out.println("here1.1");
+				processDir(file);
 			}
 		}
 	}
@@ -47,11 +48,10 @@ public abstract class FileProcessor {
 	public abstract void nondir(File dir);
 	public abstract void processline(String line);
 	public abstract void endfile(File file);
-	
 	private void processFile(File file) {
 		try {
 			Scanner reader = new Scanner (new BufferedInputStream(new FileInputStream(file)));
-			while(reader.hasNext()){
+			while(reader.hasNextLine()){
 				String line = reader.nextLine();
 				processline(line);
 			}
@@ -60,7 +60,4 @@ public abstract class FileProcessor {
 			e.printStackTrace();
 		}
 	}
-	
-	
-
 }

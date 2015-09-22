@@ -13,6 +13,8 @@ public class LineCounter extends FileProcessor implements ILineCounter  {
 	
 	@Override
 	public Map<File, Integer> countLines(File directory, String fileSelectionPattern, boolean recursive) {
+		curLineCount = 0;
+		totalcontainer.clear();
 		super.filePattern = fileSelectionPattern;
 		super.recursion = recursive;
 		super.processDir(directory);

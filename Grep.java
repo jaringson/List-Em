@@ -14,11 +14,15 @@ public class Grep extends FileProcessor implements IGrep  {
 	private Map totalcontainer = new HashMap();
 	private List<String> subcontainer = new ArrayList();
 	private String substring;
+	private Pattern subpattern;
+	private Matcher submatcher;
 
 	@Override
 	public Map<File, List<String>> grep(File directory, 
 			String fileSelectionPattern, String substringSelectionPattern,
 			boolean recursive) {
+		totalcontainer.clear();
+		subcontainer.clear();
 		//System.out.println("here2");
 		super.filePattern = fileSelectionPattern;
 		super.recursion = recursive;
@@ -39,7 +43,10 @@ public class Grep extends FileProcessor implements IGrep  {
 	@Override
 	public void processline(String line) {
 		//System.out.println("here");
-		if(line.contains(substring)){
+		//System.out.println(substring);
+		pattern = Pattern.compile(substring);
+		matcher = pattern.matcher(line);
+		if(matcher.find()){
 			//System.out.println("here5");
 			subcontainer.add(line);
 		}
