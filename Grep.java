@@ -15,18 +15,16 @@ public class Grep extends FileProcessor implements IGrep  {
 	private List<String> subcontainer = new ArrayList();
 	private String substring;
 
-	
-
-	
 	@Override
 	public Map<File, List<String>> grep(File directory, 
 			String fileSelectionPattern, String substringSelectionPattern,
 			boolean recursive) {
+		//System.out.println("here2");
 		super.filePattern = fileSelectionPattern;
 		super.recursion = recursive;
 		substring = substringSelectionPattern;
 		super.processDir(directory);
-		
+		//System.out.println(totalcontainer.toString());
 		return totalcontainer;
 	}
 
@@ -40,15 +38,20 @@ public class Grep extends FileProcessor implements IGrep  {
 	}
 	@Override
 	public void processline(String line) {
-		System.out.println("here");
+		//System.out.println("here");
 		if(line.contains(substring)){
+			//System.out.println("here5");
 			subcontainer.add(line);
 		}
 	}
 	@Override
 	public void endfile(File file) {
-		totalcontainer.put(file, subcontainer);
-		subcontainer.clear();
+		List<String> temp = new ArrayList();
+		if(subcontainer.size() > 0){
+			//System.out.println("here6" + subcontainer.toString());
+			totalcontainer.put(file, subcontainer);
+			subcontainer = temp;
+		}
 	}
 
 }

@@ -1,6 +1,7 @@
 package listem;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LineCounter extends FileProcessor implements ILineCounter  {
@@ -8,11 +9,14 @@ public class LineCounter extends FileProcessor implements ILineCounter  {
 	private File curFile;
 	private int curLineCount;
 	private int totLineCount;
+	private Map<File, Integer> totalcontainer = new HashMap();
 	
 	@Override
 	public Map<File, Integer> countLines(File directory, String fileSelectionPattern, boolean recursive) {
+		super.filePattern = fileSelectionPattern;
+		super.recursion = recursive;
 		super.processDir(directory);
-		return null;
+		return totalcontainer;
 	}
 
 	@Override
@@ -24,29 +28,16 @@ public class LineCounter extends FileProcessor implements ILineCounter  {
 		System.out.println("This is not a Directory");
 	}
 	
-	
-	public void startFile(File file){
-		curFile = file;
-		curLineCount = 0;
-	}
-	public void endFile(File file){
-		assert(file == curFile);
-	}
-	public void line(){
-		curLineCount++;
-		totLineCount++;
-	}
 
 	@Override
 	public void processline(String line) {
-		// TODO Auto-generated method stub
-		
+		curLineCount++;
 	}
 
 	@Override
 	public void endfile(File file) {
-		// TODO Auto-generated method stub
-		
+		totalcontainer.put(file, curLineCount);
+		curLineCount = 0;
 	}
 	
 

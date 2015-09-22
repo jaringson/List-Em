@@ -35,7 +35,7 @@ public class RunLineCount {
 		/**
 		 * Create an instance of your Grep here
 		 */
-		ILineCounter counter = null;
+		ILineCounter counter = new LineCounter();
 		Map<File, Integer> lineCountResult = counter.countLines(new File(dirName), filePattern, recursive);
 		
 		RunLineCount.outputLineCountResult(lineCountResult);

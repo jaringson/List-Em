@@ -9,10 +9,6 @@ import java.util.regex.*;
 
 public abstract class FileProcessor {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 	protected String dirName;
 	protected String filePattern;
 	protected Boolean recursion;
@@ -20,6 +16,7 @@ public abstract class FileProcessor {
 	protected Matcher matcher;
 	
 	void processDir(File dir){
+		//System.out.println("here3");
 		if(!dir.isDirectory()){
 			nondir(dir);
 			return;
@@ -28,11 +25,13 @@ public abstract class FileProcessor {
 			unreadableDir(dir);
 			return;
 		}
+		filePattern = filePattern.substring(1,filePattern.length()-1);
 		for(File file: dir.listFiles()){
 			pattern = Pattern.compile(filePattern);
 			matcher = pattern.matcher(file.getName());
+			//System.out.println("here4 " + file.getName() + " "+ filePattern + " " + matcher.matches());
 			if(matcher.matches()){
-				System.out.println("here1");
+				//System.out.println("here1");
 				if(file.isFile()){
 					if(file.canRead()){
 						processFile(file);
